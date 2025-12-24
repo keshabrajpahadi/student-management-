@@ -1,0 +1,111 @@
+{% extends 'student_manage/base.html' %}
+
+
+{% block title %} list student {% endblock %}
+
+
+{% block content %}
+<h1>list </h1>
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Branch</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in stu %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{student.fname}}</td>
+            <td>{{student.lname}}</td>
+            <td>{{student.email}}</td>
+            <td>{{student.phone}}</td>
+            <td>{{student.branch}}</td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#viewModal{{ student.id }}">
+                    <i class="fa-solid fa-circle-info"></i> VIEW
+                </button>
+                <!-- Modal -->
+                <div class="modal fade" id="viewModal{{ student.id }}" tabindex="-1"
+                    aria-labelledby="viewModalLabel{{ student.id }}" aria-hidden="true">
+
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="viewModalLabel{{ student.id }}">
+                                    Student: {{ student.fname }} {{ student.lname }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <ul>
+                                    <li><strong>StudentID:</strong>{{student.id}}</li>
+                                    <li><strong>Student Firstname:</strong>{{student.fname}}</li>
+                                    <li><strong>Student Lastname:</strong>{{student.lname}}</li>
+                                    <li><strong>Student Email:</strong>{{student.email}}</li>
+                                    <li><strong>Student PhoneNumber:</strong>{{student.phone}}</li>
+                                    <li><strong>Student Branch:</strong>{{student.branch}}</li>
+
+
+
+
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <a href="{% url 'update' student.id %}" class="btn btn-warning btn-sm"><i
+                        class="fa-solid fa-pen-to-square"></i>UPDATE</a>
+                <button type="button" class="btn btn-danger btn-sm " data-bs-toggle="modal" data-bs-target="#deleteModal{{ student.id }}"><i class="fa-solid fa-trash"></i>DELETE</button>
+
+
+
+                <!-- Modal -->
+                <div class="modal fade" id="deleteModal{{ student.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ student.id }}"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel{{ student.id }}">Conformation for delete </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                 <p>are you sure ? you want delete the student </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">NO</button>
+                                <form action="{% url 'delete' student.id %}" method="POST" class="d-inline">
+                                    {% csrf_token %}
+                                     <input type="submit" value="YES" class="btn btn-primary">
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+{% endblock %}
