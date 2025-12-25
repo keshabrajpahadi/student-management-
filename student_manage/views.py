@@ -3,14 +3,17 @@ from django.http import HttpResponse
 from .models import Student
 from .forms import StudentForm
 from django.db.models import Q
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-def list_student(request):
+@login_required
+def show(request):
     stu=Student.objects.all()
     context={
         'stu':stu
     }
-    return render(request,'student_manage/list_student.html',context)
+    return render(request,'student_manage/show.html',context)
 
 def update_student(request,pk):
     stu = get_object_or_404(Student, id=pk)
@@ -63,3 +66,19 @@ def search_student(request):
          }
          return render(request,'student_manage/list_student.html',context)
       return HttpResponse("error occureed")
+def home(request):
+   return render(request,'student_manage/home.html')
+
+def signup_user(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'student_manage/signup.html', context)

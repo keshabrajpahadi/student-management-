@@ -1,0 +1,31 @@
+{% extends 'studentauth/base.html' %}
+
+
+
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<span {% if message.tags %}  class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</span>
+{% endfor %}
+{% endif %}
+<div class="row m-4">
+    <div class="col">
+        <h3>welcome to student management system </h3>
+        <h5 class="mt-4">core features:</h5>
+        <ul>
+        <li><b>user authentication:</b>securely manage access with
+             user authentication, ensuring that only authorized
+             individuals can access and modify student data </li>
+        <li><b>student records management</b>create, view, update, and delete student
+             profiles effortlesseley</li>
+        <li><b>efficient CRUD operation</b> perform essential CRUD operations 
+            to maintain up to date 
+            and accurate student infrmation</li>
+    </ul>
+    <p>Get started today! explore how student management system can 
+        streamline your student management process. sign up now for a demo and 
+        experinece the simplicity and security of our system</p>
+    </div>
+</div>
+
+{% endblock %}
